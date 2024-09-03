@@ -126,10 +126,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "configure" {
 resource "aws_s3_bucket_versioning" "s3-version-iac" {
   bucket = aws_s3_bucket.s3-iac.id
 
-  block_public_acls   = true
-  block_public_policy = true
-  ignore_public_acls  = true
-
   versioning_configuration {
     status = "Enabled"
   }
