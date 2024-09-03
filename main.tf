@@ -7,8 +7,18 @@ terraform {
   }
 }
 
+variable "AWS_SECRET" {
+  type = string
+}
+
+variable "AWS_ACCESS_KEY" {
+  type = string
+}
+
 provider "aws" {
   region = "us-east-1"
+  secret_key = var.AWS_SECRET
+  access_key = var.AWS_ACCESS_KEY
 }
 
 resource "aws_vpc" "vpc-iac" {
