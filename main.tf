@@ -102,9 +102,6 @@ resource "aws_instance" "vm" {
     network_interface_id = aws_network_interface.nic-iac.id
     device_index         = 0
   }
-
-  user_data = file("configuration-script/nginx-install.sh")
-
 }
 
 resource "aws_eip" "eip-iac"{
