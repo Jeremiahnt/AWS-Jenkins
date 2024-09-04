@@ -7,6 +7,8 @@ terraform {
   }
   backend "s3" {
     bucket = "blobba"
+    access_key = "${var.AWS_SECRET}"
+    secret_key = "${var.AWS_ACCESS_KEY}"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
