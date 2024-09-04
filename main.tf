@@ -5,20 +5,14 @@ terraform {
       version = "~> 5.0"
     }
   }
-}
-
-variable "AWS_SECRET" {
-  type = string
-}
-
-variable "AWS_ACCESS_KEY" {
-  type = string
+  backend "s3" {
+    bucket = "blobba"
+    region = "us-east-1"
+  }
 }
 
 provider "aws" {
   region = "us-east-1"
-  secret_key = var.AWS_SECRET
-  access_key = var.AWS_ACCESS_KEY
 }
 
 resource "aws_vpc" "vpc-iac" {
@@ -112,6 +106,9 @@ resource "aws_instance" "vm" {
     network_interface_id = aws_network_interface.nic-iac.id
     device_index         = 0
   }
+
+  user_data = file("configuration-script/nginx-install.sh")
+
 }
 
 resource "aws_eip" "eip-iac"{
@@ -136,15 +133,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "configure" {
 resource "aws_s3_bucket_versioning" "s3-version-iac" {
   bucket = aws_s3_bucket.s3-iac.id
 
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+
   versioning_configuration {
     status = "Enabled"
   }
 }
-
-# resource "aws_s3_bucket_policy" "secure-it"{
-#   bucket = aws_s3_bucket.s3-iac.id
-#   policy = aws_iam_policy.s3_read_only_policy.id
-# }
 
 resource "aws_iam_policy" "s3_read_only_policy" {
  name = "S3ReadOnlyPolicy"
