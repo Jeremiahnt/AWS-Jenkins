@@ -12,10 +12,10 @@ terraform {
   }
 }
 variable "AWS_SECRET" {
-  type = "string"
+  type = string
 }
 variable "AWS_ACCESS_KEY" {
-  type = "string"
+  type = string
 }
 provider "aws" {
   access_key = "${var.AWS_SECRET}"
