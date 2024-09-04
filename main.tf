@@ -11,8 +11,15 @@ terraform {
     region = "us-east-1"
   }
 }
-
+variable "AWS_SECRET" {
+  type = "string"
+}
+variable "AWS_ACCESS_KEY" {
+  type = "string"
+}
 provider "aws" {
+  access_key = "${var.AWS_SECRET}"
+  secret_key = "${var.AWS_ACCESS_KEY}"
   region = "us-east-1"
 }
 
